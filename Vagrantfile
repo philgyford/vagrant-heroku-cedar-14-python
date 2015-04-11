@@ -35,12 +35,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network "forwarded_port", host: 15432, guest: 5432
 
   config.vm.provision :shell, path: 'config/vagrant/build_dependency_setup.sh'
-  #config.vm.provision :shell, path: 'config/vagrant/imagemagick_setup.sh'
   config.vm.provision :shell, path: 'config/vagrant/git_setup.sh'
-  #config.vm.provision :shell, path: 'config/vagrant/nodejs_setup.sh'
-  #config.vm.provision :shell, path: 'config/vagrant/phantomjs_setup.sh'
   config.vm.provision :shell, path: 'config/vagrant/postgresql_setup.sh'
-  #config.vm.provision :shell, path: 'config/vagrant/rbenv_setup.sh', privileged: false
   config.vm.provision :shell, path: 'config/vagrant/python_setup.sh'
   config.vm.provision :shell, path: 'config/vagrant/virtualenv_setup.sh'
 
