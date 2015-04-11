@@ -3,7 +3,7 @@ A work in progress. Trying to make a Vagrant box for python/Django development, 
 So far:
 
 * Ubuntu 14.04
-* PosgreSQL 9.4
+* PostgreSQL 9.4
 * python 2.7.6
 * Requirements for Pillow
 * pip, virtualenv, virtualenvwrapper
