@@ -8,7 +8,7 @@ echo "=== Begin Vagrant Provisioning using 'config/vagrant/foreman_setup.sh'"
 gem install foreman --no-ri --no-rdoc
 
 if [[ -f /vagrant/Procfile ]]; then
-	foreman start
+	foreman start -f /vagrant/Procfile
 else
 	echo "No Procfile found; not starting foreman."
 fi
