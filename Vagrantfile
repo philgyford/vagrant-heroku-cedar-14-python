@@ -38,9 +38,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision :shell, path: 'config/vagrant/git_setup.sh'
   config.vm.provision :shell, path: 'config/vagrant/postgresql_setup.sh'
   config.vm.provision :shell, path: 'config/vagrant/python_setup.sh'
-  config.vm.provision :shell, path: 'config/vagrant/virtualenv_setup.sh'
+  config.vm.provision :shell, path: 'config/vagrant/virtualenv_setup.sh',
+                                                    :args => ['myvirtualenv']
   # Will start the foreman process, as well as install it:
-  config.vm.provision :shell, path: 'config/vagrant/foreman_setup.sh'
+  config.vm.provision :shell, path: 'config/vagrant/foreman_setup.sh',
+                                                    :args => ['myvirtualenv']
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs

@@ -24,6 +24,7 @@ Password: `postgres_db`
 * https://github.com/kiere/vagrant-heroku-cedar-14/
 * https://github.com/ejholmes/vagrant-heroku/
 * https://github.com/torchbox/vagrant-django-base/
+* https://github.com/torchbox/vagrant-django-template
 * https://github.com/jackdb/pg-app-dev-vm/
 * https://github.com/maigfrga/django-vagrant-chef/
 * https://devcenter.heroku.com/articles/cedar-ubuntu-packages
