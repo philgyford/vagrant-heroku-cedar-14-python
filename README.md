@@ -7,14 +7,14 @@ So far:
 * python 2.7.6
 * Requirements for Pillow
 * pip, virtualenv, virtualenvwrapper
+* foreman
 
-To do:
+It will make a new virtualenv (`myvirtualenv`)
 
-* Foreman?
-* Nginx?
-* Other things?
+If a `requirements.txt` file is found, modules in it will be installed into the virtualenv.
 
-It will make a new virtualenv and install any requirements specified in a `requirements.txt` file.
+If a `Procfile` is found, foreman will be started.
+
 
 Useful:
 
