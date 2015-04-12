@@ -1,6 +1,6 @@
 # Vagrant Heroku cedar-14 box for python/Django
 
-*In progress.*
+*In progress. See [issues](https://github.com/philgyford/vagrant-heroku-cedar-14-python/issues).*
 
 A Vagrant box for python/Django development, mimicking a Heroku cedar-14 dyno.
 
@@ -22,7 +22,7 @@ If a `Procfile` is found, foreman will be started.
 
 2. Make a copy of `config/vagrant/settings.template.yml` and put it at `config/vagrant/settings.yml`.
 
-3. If you have a `Procfile` and therefore want foreman to run, you *must* change the Django `settings_module` to whatever you want the `DJANGO_SETTINGS_MODULE` environment variable to be.
+3. If you have a `Procfile` and therefore want foreman to run, you *must* change the Django `settings_module` to whatever you want the `DJANGO_SETTINGS_MODULE` environment variable in the virtual machine to be.
 
 4. Either copy, move or symlink `Vagrantfile` and the `config/vagrant` directory into your Django project. So it will be something like:
 
