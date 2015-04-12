@@ -27,8 +27,8 @@ fi
 if ! grep -Fq "WORKON_HOME" /home/vagrant/.bashrc; then
     echo "Adding virtualenvwrapper locations to .bashrc"
 
-    echo "export WORKON_HOME=/home/vagrant/.virtualenvs" >> /home/vagrant/.bashrc
-    echo "export PROJECT_HOME=/home/vagrant/Devel" >> /home/vagrant/.bashrc
+    echo "export WORKON_HOME=$HOME/.virtualenvs" >> /home/vagrant/.bashrc
+    echo "export PROJECT_HOME=$HOME/Devel" >> /home/vagrant/.bashrc
     echo "source /usr/local/bin/virtualenvwrapper.sh" >> /home/vagrant/.bashrc
 fi
 

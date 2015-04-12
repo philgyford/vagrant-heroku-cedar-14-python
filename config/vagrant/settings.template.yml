@@ -1,0 +1,9 @@
+django:
+  settings_module: projectname.settings.development
+virtualenv:
+  envname: myvirtualenv
+db:
+  name: postgres_db
+  user: postgres_db
+  password: postgres_db
+

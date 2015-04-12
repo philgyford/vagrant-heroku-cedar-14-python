@@ -1,5 +1,8 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
+require 'yaml'
+
+settings = YAML.load_file 'config/vagrant/settings.yml'
 
 $script = <<SCRIPT
 echo Beginning Vagrant provisioning...
@@ -28,21 +31,34 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
-  # accessing "localhost:8080" will access port 80 on the guest machine.
-  config.vm.network "forwarded_port", host: 8080, guest: 80
+  # accessing "localhost:5000" will access port 5000 on the guest machine.
+  config.vm.network "forwarded_port", guest: 5000, host: 5000
 
   # PostgreSQL Server port forwarding
   config.vm.network "forwarded_port", host: 15432, guest: 5432
 
   config.vm.provision :shell, path: 'config/vagrant/build_dependency_setup.sh'
+
   config.vm.provision :shell, path: 'config/vagrant/git_setup.sh'
-  config.vm.provision :shell, path: 'config/vagrant/postgresql_setup.sh'
+
+  config.vm.provision :shell, path: 'config/vagrant/postgresql_setup.sh',
+                              args: [
+                                settings['db']['name'],
+                                settings['db']['user'],
+                                settings['db']['password'],
+                              ]
+
   config.vm.provision :shell, path: 'config/vagrant/python_setup.sh'
+
   config.vm.provision :shell, path: 'config/vagrant/virtualenv_setup.sh',
-                                                    :args => ['myvirtualenv']
-  # Will start the foreman process, as well as install it:
+                              args: [ settings['virtualenv']['envname'], ]
+
+  # Will install foreman and, if there's a Procfile, start it:
   config.vm.provision :shell, path: 'config/vagrant/foreman_setup.sh',
-                                                    :args => ['myvirtualenv']
+                              args: [
+                                settings['virtualenv']['envname'],
+                                settings['django']['settings_module'],
+                              ]
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs

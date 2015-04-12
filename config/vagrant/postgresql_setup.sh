@@ -1,16 +1,17 @@
 #!/bin/sh -e
 
+# Expects three arguments:
+#   $1 - database name
+#   $2 - database user
+#   #3 - database user password
+
 # Via https://github.com/kiere/vagrant-heroku-cedar-14/blob/master/config/vagrant/postgresql_setup.sh
-# (But changed APP_DB_NAME and CREATE DATABASE stuff.
 
 echo "=== Begin Vagrant Provisioning using 'config/vagrant/postgresql_setup.sh'"
 
-# Edit the following to change the name of the database user that will be created:
-APP_DB_USER=postgres_db
-APP_DB_PASS=$APP_DB_USER
-
-# Edit the following to change the name of the database that is created (defaults to the user name)
-APP_DB_NAME=${APP_DB_USER}
+APP_DB_NAME=$1
+APP_DB_USER=$2
+APP_DB_PASS=$3
 
 # Edit the following to change the version of PostgreSQL that is installed
 PG_VERSION=9.4
