@@ -39,9 +39,9 @@ If a `Procfile` is found, foreman will be started.
 
 	This will vary slightly depending on your Django project's layout.
 
-5. Run `vagrant up` from the same level as `Vagrantfile`.
+5. Run `vagrant up` from the same directory that the copy/symlink of `Vagrantfile` is in.
 
-6. Go to http://localhost:5000/
+6. Go to http://localhost:5000/ in your browser.
 
 You will probably want to do `vagrant ssh` and populate the database. This could be smoother...
 
