@@ -22,21 +22,26 @@ if [[ ! -f /usr/local/bin/virtualenv ]]; then
     easy_install virtualenv virtualenvwrapper
 fi
 
+
 # If it doesn't look like .bashrc has the required virtualenvwrapper lines in,
 # then add them.
 if ! grep -Fq "WORKON_HOME" /home/vagrant/.bashrc; then
     echo "Adding virtualenvwrapper locations to .bashrc"
 
-    echo "export WORKON_HOME=$HOME/.virtualenvs" >> /home/vagrant/.bashrc
-    echo "export PROJECT_HOME=$HOME/Devel" >> /home/vagrant/.bashrc
+    echo "export WORKON_HOME=/home/vagrant/.virtualenvs" >> /home/vagrant/.bashrc
+    echo "export PROJECT_HOME=/home/vagrant/Devel" >> /home/vagrant/.bashrc
     echo "source /usr/local/bin/virtualenvwrapper.sh" >> /home/vagrant/.bashrc
+
+    # Automatically switch to the virtual env on log in.
+    echo "workon $VIRTUALENV_NAME" >> /home/vagrant/.bashrc
 fi
 
 # Doing `source /home/vagrant/.bashrc` won't work; we need to explicitly repeat
 # what we've put in .bashrc:
-WORKON_HOME=/home/vagrant/.virtualenvs
-PROJECT_HOME=/home/vagrant/Devel
+export WORKON_HOME=/home/vagrant/.virtualenvs
+export PROJECT_HOME=/home/vagrant/Devel
 source /usr/local/bin/virtualenvwrapper.sh
+
 
 if [[ -d /vagrant/home/.virtualenvs/$VIRTUALENV_NAME ]]; then
     echo "Activating virtualenv $VIRTUALENV_NAME."

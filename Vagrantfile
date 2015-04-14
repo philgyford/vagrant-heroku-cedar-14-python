@@ -37,28 +37,45 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # PostgreSQL Server port forwarding
   config.vm.network "forwarded_port", host: 15432, guest: 5432
 
-  config.vm.provision :shell, path: 'config/vagrant/build_dependency_setup.sh'
+  # You can provision with just one of these scripts by user its name, eg:
+  #   $ vagrant provision --provision-with postgresql
 
-  config.vm.provision :shell, path: 'config/vagrant/git_setup.sh'
+  config.vm.provision 'build',
+            type: 'shell',
+            path: 'config/vagrant/build_dependency_setup.sh'
 
-  config.vm.provision :shell, path: 'config/vagrant/postgresql_setup.sh',
-                              args: [
-                                settings['db']['name'],
-                                settings['db']['user'],
-                                settings['db']['password'],
-                              ]
+  config.vm.provision 'git',
+            type: 'shell',
+            path: 'config/vagrant/git_setup.sh'
 
-  config.vm.provision :shell, path: 'config/vagrant/python_setup.sh'
+  config.vm.provision 'postgresql',
+            type: 'shell',
+            path: 'config/vagrant/postgresql_setup.sh',
+            args: [
+              settings['db']['name'],
+              settings['db']['user'],
+              settings['db']['password'],
+            ]
 
-  config.vm.provision :shell, path: 'config/vagrant/virtualenv_setup.sh',
-                              args: [ settings['virtualenv']['envname'], ]
+  config.vm.provision 'python',
+            type: 'shell',
+            path: 'config/vagrant/python_setup.sh'
+
+  config.vm.provision 'virtualenv',
+            type: 'shell',
+            path: 'config/vagrant/virtualenv_setup.sh',
+            args: [
+              settings['virtualenv']['envname'],
+            ]
 
   # Will install foreman and, if there's a Procfile, start it:
-  config.vm.provision :shell, path: 'config/vagrant/foreman_setup.sh',
-                              args: [
-                                settings['virtualenv']['envname'],
-                                settings['django']['settings_module'],
-                              ]
+  config.vm.provision 'foreman',
+            type: 'shell',
+            path: 'config/vagrant/foreman_setup.sh',
+            args: [
+              settings['virtualenv']['envname'],
+              settings['django']['settings_module'],
+            ]
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
