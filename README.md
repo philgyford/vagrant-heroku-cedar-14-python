@@ -13,7 +13,9 @@ A Vagrant box for python/Django development, mimicking a Heroku cedar-14 dyno.
 
 If a `requirements.txt` file is found, modules in it will be installed into the virtualenv.
 
-If a `Procfile` is found, foreman will be started.
+When you log in the virtualenv will automatically be activated.
+
+If a `Procfile` is found, foreman will be started. (No, it won't at the moment.)
 
 
 ## Running it
