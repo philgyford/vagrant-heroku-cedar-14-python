@@ -11,13 +11,14 @@ echo "=== Begin Vagrant Provisioning using 'config/vagrant/foreman_setup.sh'"
 
 gem install foreman --no-ri --no-rdoc
 
-#if [[ -f /vagrant/Procfile ]]; then
+if ! grep -Fq "DJANGO_SETTINGS_MODULE" /home/vagrant/.bashrc; then
+    echo "export DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE}" >> /home/vagrant/.bashrc
+fi
 
-    #if ! grep -Fq "DJANGO_SETTINGS_MODULE" /home/vagrant/.bashrc; then
-        #echo "export DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE}" >> /home/vagrant/.bashrc
-    #fi
 
-    #export DJANGO_SETTINGS_MODULE="$DJANGO_SETTINGS_MODULE"
+if [[ -f /vagrant/Procfile ]]; then
+
+    export DJANGO_SETTINGS_MODULE="$DJANGO_SETTINGS_MODULE"
 
     ## We need to re-set these, as they don't seem to carry over from
     ## virtualenv_setup.sh
