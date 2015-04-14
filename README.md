@@ -8,7 +8,7 @@ A Vagrant box for python/Django development, mimicking a Heroku cedar-14 dyno.
 * PostgreSQL 9.4
 * python 2.7.6
 * pip, virtualenv, virtualenvwrapper
-* Requirements for Pillow
+* Requirements for the python image processing module Pillow
 * foreman
 
 If a `requirements.txt` file is found, modules in it will be installed into the virtualenv.
@@ -20,14 +20,17 @@ If a `Procfile` is found, foreman will be started.
 
 1. Install [Vagrant](https://www.vagrantup.com/) and [VirtualBox](https://www.virtualbox.org/).
 
-2. Make a copy of `config/vagrant/settings.template.yml` and put it at `config/vagrant/settings.yml`.
+2. In your project, make a `config/` directory, if it doesn't already have one.
 
-3. If you have a `Procfile` and therefore want foreman to run, you *must* change the Django `settings_module` to whatever you want the `DJANGO_SETTINGS_MODULE` environment variable in the virtual machine to be.
+3. Make a copy of `config/vagrant.template.yml` and put it at `config/vagrant.yml` in *your* project.
 
-4. Either copy, move or symlink `Vagrantfile` and the `config/vagrant` directory into your Django project. So it will be something like:
+4. If you have a `Procfile`, and therefore want foreman to run, you *must* change the Django `settings_module` in `config/vagrant.yml` to whatever you want the `DJANGO_SETTINGS_MODULE` environment variable in the virtual machine to be. Feel free to change any of the other config options if appropriate.
+
+5. Either copy, move or symlink `Vagrantfile` and the `config/vagrant/` directory into your Django project. So it will be something like:
 
 		config/
-			vagrant/
+			vagrant/		# a copy or symlink
+			vagrant.yml
 		myproject/
 			manage.py
 			my_app/
@@ -35,13 +38,13 @@ If a `Procfile` is found, foreman will be started.
 			...
 		Procfile
 		requirements.txt
-		Vagrantfile
+		Vagrantfile			# a copy or symlink
 
 	This will vary slightly depending on your Django project's layout.
 
-5. Run `vagrant up` from the same directory that the copy/symlink of `Vagrantfile` is in.
+6. Run `vagrant up` from the same directory that the copy/symlink of `Vagrantfile` is in.
 
-6. Go to http://localhost:5000/ in your browser.
+7. Go to http://localhost:5000/ in your browser.
 
 You will probably want to do `vagrant ssh` and populate the database. This could be smoother...
 

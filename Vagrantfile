@@ -2,7 +2,7 @@
 # vi: set ft=ruby :
 require 'yaml'
 
-settings = YAML.load_file 'config/vagrant/settings.yml'
+settings = YAML.load_file 'config/vagrant.yml'
 
 $script = <<SCRIPT
 echo Beginning Vagrant provisioning...
