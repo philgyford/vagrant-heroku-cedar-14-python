@@ -52,6 +52,10 @@ You will probably want to do `vagrant ssh` and populate the database. This could
 
 If you change or update any of the Vagrant stuff, then do `vagrant provision` to have it run through and update the box with changes.
 
+## Problems
+
+If you try to access your site in a browser but get a "Peer authentication failed for user" error, then ensure you've set the `HOST` value in your Django settings file to `localhost`. An empty string will not work.
+
 
 #### Useful / Inspired by:
 
