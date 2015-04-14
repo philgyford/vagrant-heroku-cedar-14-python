@@ -2,6 +2,10 @@
 # vi: set ft=ruby :
 require 'yaml'
 
+unless File.exist?('config/vagrant.yml')
+  raise "There is no config/vagrant.yml file.\nCopy config/vagrant.template.yml, make any changes you need, then try again."
+end
+
 settings = YAML.load_file 'config/vagrant.yml'
 
 $script = <<SCRIPT
