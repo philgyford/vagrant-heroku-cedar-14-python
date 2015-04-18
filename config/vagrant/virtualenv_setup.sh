@@ -25,30 +25,27 @@ fi
 
 # If it doesn't look like .bashrc has the required virtualenvwrapper lines in,
 # then add them.
-if ! grep -Fq "WORKON_HOME" /home/vagrant/.bashrc; then
-    echo "Adding virtualenvwrapper locations to .bashrc"
+if ! grep -Fq "WORKON_HOME" /home/vagrant/.profile; then
+    echo "Adding virtualenvwrapper locations to .profile"
 
-    echo "export WORKON_HOME=/home/vagrant/.virtualenvs" >> /home/vagrant/.bashrc
-    echo "export PROJECT_HOME=/home/vagrant/Devel" >> /home/vagrant/.bashrc
-    echo "source /usr/local/bin/virtualenvwrapper.sh" >> /home/vagrant/.bashrc
-
-    # Automatically switch to the virtual env on log in.
-    echo "workon $VIRTUALENV_NAME" >> /home/vagrant/.bashrc
+    echo "export WORKON_HOME=/home/vagrant/.virtualenvs" >> /home/vagrant/.profile
+    echo "export PROJECT_HOME=/home/vagrant/Devel" >> /home/vagrant/.profile
+    echo "source /usr/local/bin/virtualenvwrapper.sh" >> /home/vagrant/.profile
 fi
 
-# Doing `source /home/vagrant/.bashrc` won't work; we need to explicitly repeat
-# what we've put in .bashrc:
-export WORKON_HOME=/home/vagrant/.virtualenvs
-export PROJECT_HOME=/home/vagrant/Devel
-source /usr/local/bin/virtualenvwrapper.sh
-
+# Get .virtualenvwrapper env variables set up:
+source /home/vagrant/.profile
 
 if [[ -d /vagrant/home/.virtualenvs/$VIRTUALENV_NAME ]]; then
     echo "Activating virtualenv $VIRTUALENV_NAME."
     workon $VIRTUALENV_NAME
 else
     echo "Making new virtualenv $VIRTUALENV_NAME."
+    # Also switches to the virtualenv:
     mkvirtualenv $VIRTUALENV_NAME
+
+    # Automatically switch to the virtual env on log in:
+    echo "workon $VIRTUALENV_NAME" >> /home/vagrant/.profile
 fi
 
 # If we have a requirements.txt file in this project, then install
