@@ -48,9 +48,21 @@ If a `Procfile` is found, foreman will be started. (No, it won't at the moment.)
 
 7. Go to http://localhost:5000/ in your browser.
 
-You will probably want to do `vagrant ssh` and populate the database. This could be smoother...
-
 If you change or update any of the Vagrant stuff, then do `vagrant provision` to have it run through and update the box with changes.
+
+
+## Database
+
+The above will set up a postgres database and user, but not populate the database. Database name, username and password are set in `config/vagrant.yml`.
+
+If you have a `pg_dump` dump file, put it in the same directory as your Django project and then:
+
+	$ vagrant ssh
+	vagrant$ cd /vagrant
+	vagrant$ pg_restore --verbose --clean --no-acl --no-owner -h localhost -U your_pg_username -d your_db_name your-dump-name.dump
+
+You'll be prompted for the postgres user's password, and then it should import.
+
 
 ## Problems
 
