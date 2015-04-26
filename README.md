@@ -26,7 +26,7 @@ If a `Procfile` is found, foreman will be started.
 
 4. If you have a Procfile, and therefore want foreman to run, you *must* change the Django `settings_module` in `config/vagrant.yml` to whatever you want the `DJANGO_SETTINGS_MODULE` environment variable in the virtual machine to be. Feel free to change any of the other config options if appropriate.
 
-You can also change the name of the Procfile foreman should use in `config/vagrant.yml`, in case you want to use a different one in Vagrant versus live (see below).
+    You can also change the name of the Procfile foreman should use in `config/vagrant.yml`, in case you want to use a different one in Vagrant versus live (see below).
 
 5. Either copy, move or symlink `Vagrantfile` and the `config/vagrant/` directory into your Django project. So it will be something like:
 
