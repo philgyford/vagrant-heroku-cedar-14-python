@@ -2,6 +2,8 @@ django:
   settings_module: projectname.settings.development
 virtualenv:
   envname: myvirtualenv
+foreman:
+  procfile: Procfile
 db:
   name: postgres_db
   user: postgres_db

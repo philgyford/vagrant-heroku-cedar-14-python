@@ -79,6 +79,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
             args: [
               settings['virtualenv']['envname'],
               settings['django']['settings_module'],
+              settings['foreman']['procfile'],
             ]
 
   # Disable automatic box update checking. If you disable this, then

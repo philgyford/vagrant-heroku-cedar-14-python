@@ -1,6 +1,4 @@
-# Vagrant Heroku cedar-14 box for python/Django
-
-*In progress. See [issues](https://github.com/philgyford/vagrant-heroku-cedar-14-python/issues).*
+# Vagrant Heroku cedar-14 box for Python and Django
 
 A Vagrant box for python/Django development, mimicking a Heroku cedar-14 dyno.
 
@@ -13,9 +11,9 @@ A Vagrant box for python/Django development, mimicking a Heroku cedar-14 dyno.
 
 If a `requirements.txt` file is found, modules in it will be installed into the virtualenv.
 
-When you log in the virtualenv will automatically be activated.
+When you ssh into the VM the virtualenv will automatically be activated.
 
-If a `Procfile` is found, foreman will be started. (No, it won't at the moment.)
+If a `Procfile` is found, foreman will be started.
 
 
 ## Running it
@@ -26,7 +24,9 @@ If a `Procfile` is found, foreman will be started. (No, it won't at the moment.)
 
 3. Make a copy of `config/vagrant.template.yml` and put it at `config/vagrant.yml` in *your* project.
 
-4. If you have a `Procfile`, and therefore want foreman to run, you *must* change the Django `settings_module` in `config/vagrant.yml` to whatever you want the `DJANGO_SETTINGS_MODULE` environment variable in the virtual machine to be. Feel free to change any of the other config options if appropriate.
+4. If you have a Procfile, and therefore want foreman to run, you *must* change the Django `settings_module` in `config/vagrant.yml` to whatever you want the `DJANGO_SETTINGS_MODULE` environment variable in the virtual machine to be. Feel free to change any of the other config options if appropriate.
+
+You can also change the name of the Procfile foreman should use in `config/vagrant.yml`, in case you want to use a different one in Vagrant versus live (see below).
 
 5. Either copy, move or symlink `Vagrantfile` and the `config/vagrant/` directory into your Django project. So it will be something like:
 
@@ -51,9 +51,18 @@ If a `Procfile` is found, foreman will be started. (No, it won't at the moment.)
 If you change or update any of the Vagrant stuff, then do `vagrant provision` to have it run through and update the box with changes.
 
 
+## Foreman
+
+By default foreman sends output to stdout and stderr. This prevents Vagrant from exiting nicely, even though we run foreman as `foreman .. &`. To ensure a smooth exit from foreman, and to be able to see its output in future, you should send the output of processes in your Procfile to a file. eg:
+
+	web: gunicorn myproject.wsgi > /vagrant/gunicorn.log 2>&1
+
+Then you can just `tail -f /vagrant/gunicorn.log` to see its output. For this reason you might want to use a different Procfile for use in Vagrant than you do with your live server (use the setting in `config/vagrant.yml` to specify the filename).
+	
+
 ## Database
 
-The above will set up a postgres database and user, but not populate the database. Database name, username and password are set in `config/vagrant.yml`.
+The process above will set up a postgres database and user, but not populate the database. Database name, username and password are set in `config/vagrant.yml`.
 
 If you have a `pg_dump` dump file, put it in the same directory as your Django project and then:
 
@@ -64,12 +73,12 @@ If you have a `pg_dump` dump file, put it in the same directory as your Django p
 You'll be prompted for the postgres user's password, and then it should import.
 
 
-## Problems
+## Potential problems
 
-If you try to access your site in a browser but get a "Peer authentication failed for user" error, then ensure you've set the `HOST` value in your Django settings file to `localhost`. An empty string will not work.
+If you try to access your Django site in a browser but get a "Peer authentication failed for user" error, then ensure you've set the `HOST` value in your Django settings file to `localhost`. An empty string will not work.
 
 
-#### Useful / Inspired by:
+## Useful / Inspired by:
 
 * https://github.com/kiere/vagrant-heroku-cedar-14/
 * https://github.com/ejholmes/vagrant-heroku/
