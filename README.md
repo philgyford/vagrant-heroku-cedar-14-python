@@ -15,6 +15,8 @@ When you ssh into the VM the virtualenv will automatically be activated.
 
 If a `Procfile` is found, foreman will be started.
 
+The project directory (containing the `Vagrantfile`) will be availble in the VM at `/vagrant/`.
+
 
 ## Running it
 
