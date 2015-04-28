@@ -36,13 +36,16 @@ fi
 # Get .virtualenvwrapper env variables set up:
 source /home/vagrant/.profile
 
-if [[ -d /vagrant/home/.virtualenvs/$VIRTUALENV_NAME ]]; then
+if [[ -d /home/vagrant/.virtualenvs/$VIRTUALENV_NAME ]]; then
     echo "Activating virtualenv $VIRTUALENV_NAME."
     workon $VIRTUALENV_NAME
 else
     echo "Making new virtualenv $VIRTUALENV_NAME."
     # Also switches to the virtualenv:
     mkvirtualenv $VIRTUALENV_NAME
+
+	# So that we can install things with pip while ssh'd in as vagrant user:
+	sudo chown -R vagrant:vagrant /home/vagrant/.virtualenvs/$VIRTUALENV_NAME/
 
     # Automatically switch to the virtual env on log in:
     echo "workon $VIRTUALENV_NAME" >> /home/vagrant/.profile
