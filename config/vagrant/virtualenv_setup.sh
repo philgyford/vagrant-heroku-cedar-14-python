@@ -11,8 +11,6 @@
 # The name we'll use for the virtualenv in which we'll install requirements:
 VENV_NAME=$1
 
-VENV_PATH=/home/vagrant/.virtualenvs/$VENV_NAME
-
 echo "=== Begin Vagrant Provisioning using 'config/vagrant/virtualenv_setup.sh'"
 
 # virtualenv global setup
