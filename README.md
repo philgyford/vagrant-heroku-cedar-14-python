@@ -32,19 +32,19 @@ The project directory (containing the `Vagrantfile`) will be availble in the VM 
 
 5. Either copy, move or symlink `Vagrantfile` and the `config/vagrant/` directory into your Django project. So it will be something like:
 
-		config/
-			vagrant/		# a copy or symlink
-			vagrant.yml
-		myproject/
-			manage.py
-			my_app/
-				...
-			...
-		Procfile
-		requirements.txt
-		Vagrantfile			# a copy or symlink
+        config/
+            vagrant/        # a copy or symlink
+            vagrant.yml
+        myproject/
+            manage.py
+            my_app/
+                ...
+            ...
+        Procfile
+        requirements.txt
+        Vagrantfile            # a copy or symlink
 
-	This will vary slightly depending on your Django project's layout.
+    This will vary slightly depending on your Django project's layout.
 
 6. Run `vagrant up` from the same directory that the copy/symlink of `Vagrantfile` is in.
 
@@ -57,10 +57,10 @@ If you change or update any of the Vagrant stuff, then do `vagrant provision` to
 
 By default foreman sends output to stdout and stderr. This prevents Vagrant from exiting nicely, even though we run foreman as `foreman .. &`. To ensure a smooth exit from foreman, and to be able to see its output in future, you should send the output of processes in your Procfile to a file. eg:
 
-	web: gunicorn myproject.wsgi > /vagrant/gunicorn.log 2>&1
+    web: gunicorn myproject.wsgi > /vagrant/gunicorn.log 2>&1
 
 Then you can just `tail -f /vagrant/gunicorn.log` to see its output. For this reason you might want to use a different Procfile for use in Vagrant than you do with your live server (use the setting in `config/vagrant.yml` to specify the filename).
-	
+    
 
 ## Database
 
@@ -68,11 +68,27 @@ The process above will set up a postgres database and user, but not populate the
 
 If you have a `pg_dump` dump file, put it in the same directory as your Django project and then:
 
-	$ vagrant ssh
-	vagrant$ cd /vagrant
-	vagrant$ pg_restore --verbose --clean --no-acl --no-owner -h localhost -U your_pg_username -d your_db_name your-dump-name.dump
+    $ vagrant ssh
+    vagrant$ cd /vagrant
+    vagrant$ pg_restore --verbose --clean --no-acl --no-owner -h localhost -U your_pg_username -d your_db_name your-dump-name.dump
 
 You'll be prompted for the postgres user's password, and then it should import.
+
+
+## Virtualenvwrapper
+
+If you want to use virtualenvwrapper's [user-defined hooks](http://virtualenvwrapper.readthedocs.org/en/latest/scripts.html#scripts) then create a directory at `config/virtualenvwrapper/vagrant/` containing them. For example, continuing our example structure above:
+
+        config/
+            vagrant/        # a copy or symlink
+            vagrant.yml
+            virtualenvwrapper/
+                vagrant/
+                    preactivate
+                    postdeactivate
+        ...
+
+If this directory is present, the `VIRTUALENVWRAPPER_HOOK_DIR` environment variable will be set, and these files will be used instead of the defaults.
 
 
 ## Potential problems
