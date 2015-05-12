@@ -52,6 +52,10 @@ The project directory (containing the `Vagrantfile`) will be availble in the VM 
 
 If you change or update any of the Vagrant stuff, then do `vagrant provision` to have it run through and update the box with changes.
 
+### Subsequently
+
+If you `vagrant halt` the box, you'll need to do `vagrant up --provision` to get everything running again. Just doing `vagrant up` won't currently start foreman etc.
+
 
 ## Foreman
 
