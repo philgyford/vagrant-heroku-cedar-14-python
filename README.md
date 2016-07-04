@@ -75,6 +75,20 @@ If you want to use GeoDjango, set the ``use_geodjango`` variable in your `config
 
 This will install the requirements for using GeoDjango: GEOS, PROJ.4, GDAL, PostGIS.
 
+### Note
+
+The install script should do this, but I had an occasion when I was getting this error while running Django migrations:
+
+	django.db.utils.ProgrammingError: permission denied to create extension "postgis"
+
+So I had to do this (replace `DB_NAME` with your database name):
+	
+	$ vagrant ssh
+	vagrant$ sudo -u postgres psql DB_NAME
+	=# CREATE EXTENSION postgis;
+	=# \q
+
+
 ## Foreman
 
 By default foreman sends output to stdout and stderr. This prevents Vagrant from exiting nicely, even though we run foreman as `foreman .. &`. To ensure a smooth exit from foreman, and to be able to see its output in future, you should send the output of processes in your Procfile to a file. eg:
