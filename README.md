@@ -4,7 +4,7 @@ A Vagrant box for python/Django development, mimicking a Heroku cedar-14 dyno.
 
 * Ubuntu 14.04 (ubuntu/trusty64)
 * PostgreSQL 9.5
-* python 2.7.6
+* Python 2.7 or 3.5
 * pip, virtualenv, virtualenvwrapper
 * Requirements for the python image processing module Pillow
 * foreman
@@ -38,12 +38,11 @@ The project directory (containing the `Vagrantfile`) will be availble in the VM 
             vagrant.yml
         myproject/
             manage.py
-            my_app/
-                ...
             ...
         Procfile
         requirements.txt
-        Vagrantfile            # a copy or symlink
+        runtime.txt         # optional, see below
+        Vagrantfile         # a copy or symlink
 
     This will vary slightly depending on your Django project's layout.
 
@@ -56,6 +55,17 @@ If you change or update any of the Vagrant stuff, then do `vagrant provision` to
 ### Subsequently
 
 If you `vagrant halt` the box, you'll need to do `vagrant up --provision` to get everything running again. Just doing `vagrant up` won't currently start foreman etc.
+
+## Python versions
+
+By default the virtualenv will use python 2.7.
+
+To specify python 3.5 [Heroku requires you](https://devcenter.heroku.com/articles/python-runtimes) to place a `runtime.txt` file in your repository's root containing one line:
+
+    python-3.5.2
+
+When setting up the Vagrant box, if this file is present, and contains `python-3.5*`, then python 3.5 will be installed and used for the virtualenv.
+
 
 ## GeoDjango
 

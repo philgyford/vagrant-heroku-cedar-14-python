@@ -44,9 +44,19 @@ if [[ -d /home/vagrant/.virtualenvs/$VENV_NAME ]]; then
     echo "Activating virtualenv $VENV_NAME."
     workon $VENV_NAME
 else
-    echo "Making new virtualenv $VENV_NAME."
+    PYTHON_VERSION='python'
+
+    # If runtime.txt specifies Python 3, use that for the virtualenv:
+    if [[ -f /vagrant/runtime.txt ]]; then
+        python_runtime=$(head -n 1 /vagrant/runtime.txt)
+        if [[ $python_runtime =~ ^python-3\.5 ]]; then
+            PYTHON_VERSION='python3.5'
+        fi
+    fi
+
+    echo "Making new virtualenv $VENV_NAME ($PYTHON_VERSION)."
     # Also switches to the virtualenv:
-    mkvirtualenv $VENV_NAME
+    mkvirtualenv --python=`which $PYTHON_VERSION` $VENV_NAME
 
     # So that we can install things with pip while ssh'd in as vagrant user:
     sudo chown -R vagrant:vagrant /home/vagrant/.virtualenvs/$VENV_NAME/
