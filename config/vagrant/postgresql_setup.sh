@@ -12,9 +12,14 @@ echo "=== Begin Vagrant Provisioning using 'config/vagrant/postgresql_setup.sh'"
 APP_DB_NAME=$1
 APP_DB_USER=$2
 APP_DB_PASS=$3
+USE_GEODJANGO=$4
 
 # Edit the following to change the version of PostgreSQL that is installed
-PG_VERSION=9.4
+PG_VERSION=9.5
+
+# Edit the following to change the version of PostGIS that is installed if
+# USE_GEODJANGO is true.
+POSTGIS_VERSION=2.2
 
 ###########################################################
 # Changes below this line are probably not necessary
@@ -72,6 +77,15 @@ apt-get -y upgrade
 apt-get -y install "postgresql-$PG_VERSION" "postgresql-contrib-$PG_VERSION"
 apt-get -y install libpq-dev # For building ruby 'pg' gem
 
+if [ $USE_GEODJANGO = 'true' ]
+then
+  echo ""
+  echo "Installing PostGIS"
+  echo ""
+  # NOTE: GEOS, PROJ.4 and GDAL should be installed before this.
+  apt-get -y install postgresql-$PG_VERSION-postgis-$POSTGIS_VERSION postgresql-server-dev-$PG_VERSION python-psycopg2
+fi
+
 PG_CONF="/etc/postgresql/$PG_VERSION/main/postgresql.conf"
 PG_HBA="/etc/postgresql/$PG_VERSION/main/pg_hba.conf"
 PG_DIR="/var/lib/postgresql/$PG_VERSION/main"
@@ -101,6 +115,13 @@ CREATE DATABASE "$APP_DB_NAME" WITH OWNER=$APP_DB_USER
                                   ENCODING='UTF8'
                                   TEMPLATE=template0;
 EOF
+
+if [ $USE_GEODJANGO = 'true' ]
+then
+  cat << EOF | su - postgres -c psql $APP_DB_NAME
+  CREATE EXTENSION postgis;
+EOF
+fi
 
 # Tag the provision time:
 date > "$PROVISIONED_ON"

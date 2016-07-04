@@ -3,11 +3,12 @@
 A Vagrant box for python/Django development, mimicking a Heroku cedar-14 dyno.
 
 * Ubuntu 14.04 (ubuntu/trusty64)
-* PostgreSQL 9.4
+* PostgreSQL 9.5
 * python 2.7.6
 * pip, virtualenv, virtualenvwrapper
 * Requirements for the python image processing module Pillow
 * foreman
+* GeoDjango requirements (optionally)
 
 If a `requirements.txt` file is found, modules in it will be installed into the virtualenv.
 
@@ -48,7 +49,7 @@ The project directory (containing the `Vagrantfile`) will be availble in the VM 
 
 6. Run `vagrant up` from the same directory that the copy/symlink of `Vagrantfile` is in.
 
-7. Go to http://localhost:5000/ in your browser.
+7. Go to [http://localhost:5000/](http://localhost:5000) in your browser.
 
 If you change or update any of the Vagrant stuff, then do `vagrant provision` to have it run through and update the box with changes.
 
@@ -56,6 +57,13 @@ If you change or update any of the Vagrant stuff, then do `vagrant provision` to
 
 If you `vagrant halt` the box, you'll need to do `vagrant up --provision` to get everything running again. Just doing `vagrant up` won't currently start foreman etc.
 
+## GeoDjango
+
+If you want to use GeoDjango, set the ``use_geodjango`` variable in your `config/vagrant.yml` file to the string ``true``:
+
+    use_geodjango: 'true'
+
+This will install the requirements for using GeoDjango: GEOS, PROJ.4, GDAL, PostGIS.
 
 ## Foreman
 
@@ -67,6 +75,8 @@ Then you can just `tail -f /vagrant/gunicorn.log` to see its output. For this re
     
 
 ## Database
+
+To change the version of Postgres (and PostGIS, if you're using GeoDjango), edit the variable(s) in `config/vagrant/postgresql_setup.sh`.
 
 The process above will set up a postgres database and user, but not populate the database. Database name, username and password are set in `config/vagrant.yml`.
 
@@ -88,11 +98,19 @@ If you want to use virtualenvwrapper's [user-defined hooks](http://virtualenvwra
             vagrant.yml
             virtualenvwrapper/
                 vagrant/
-                    preactivate
+                    postactivate
                     postdeactivate
+                    preactivate
         ...
 
 If this directory is present, the `VIRTUALENVWRAPPER_HOOK_DIR` environment variable will be set, and these files will be used instead of the defaults.
+
+So, to set environment variables for your virtualenv you might add something like this to your `postactivate` file:
+
+    #!/bin/bash
+    # This hook is run after this virtualenv is activated.
+
+    export MY_ENVIRONMENT_VARIABLE=hello-there
 
 
 ## Potential problems

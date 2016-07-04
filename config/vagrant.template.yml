@@ -8,4 +8,5 @@ db:
   name: postgres_db
   user: postgres_db
   password: postgres_db
+use_geodjango: 'false'
 

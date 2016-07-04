@@ -46,7 +46,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.provision 'build',
             type: 'shell',
-            path: 'config/vagrant/build_dependency_setup.sh'
+            path: 'config/vagrant/build_dependency_setup.sh',
+            args: [
+              settings['use_geodjango'],
+            ]
 
   config.vm.provision 'git',
             type: 'shell',
@@ -59,6 +62,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
               settings['db']['name'],
               settings['db']['user'],
               settings['db']['password'],
+              settings['use_geodjango'],
             ]
 
   config.vm.provision 'python',
