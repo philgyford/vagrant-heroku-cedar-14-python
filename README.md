@@ -93,7 +93,7 @@ So I had to do this (replace `DB_NAME` with your database name):
 
 By default foreman sends output to stdout and stderr. This prevents Vagrant from exiting nicely, even though we run foreman as `foreman .. &`. To ensure a smooth exit from foreman, and to be able to see its output in future, you should send the output of processes in your Procfile to a file. eg:
 
-    web: gunicorn --reload myproject.wsgi > /vagrant/gunicorn.log 2>&1
+    web: gunicorn --reload --log-level debug myproject.wsgi > /vagrant/gunicorn.log 2>&1
 
 Then you can just `tail -f /vagrant/gunicorn.log` to see its output. For this reason you might want to use a different Procfile for use in Vagrant than you do with your live server (use the setting in `config/vagrant.yml` to specify the filename).
 
