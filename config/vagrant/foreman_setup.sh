@@ -11,7 +11,7 @@ PROCFILE=$3
 echo "=== Begin Vagrant Provisioning using 'config/vagrant/foreman_setup.sh'"
 
 if [ -z `which foreman` ]; then
-	gem install foreman --no-ri --no-rdoc
+    gem install foreman --no-ri --no-rdoc
 fi
 
 if ! grep -Fq "DJANGO_SETTINGS_MODULE" /home/vagrant/.bashrc; then

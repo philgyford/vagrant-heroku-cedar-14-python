@@ -7,7 +7,7 @@ A Vagrant box for python/Django development, mimicking a Heroku cedar-14 dyno.
 * Python 2.7 or 3.5
 * pip, virtualenv, virtualenvwrapper
 * Requirements for the python image processing module Pillow
-* foreman
+* foreman (optional, and sometimes problematic; see below)
 * GeoDjango requirements (optionally)
 
 If a `requirements.txt` file is found, modules in it will be installed into the virtualenv.
@@ -56,6 +56,23 @@ If you change or update any of the Vagrant stuff, then do `vagrant provision` to
 
 If you `vagrant halt` the box, you'll need to do `vagrant up --provision` to get everything running again. Just doing `vagrant up` won't currently start foreman etc.
 
+
+## Foreman or the Django development server?
+
+By default foreman sends output to stdout and stderr. This prevents Vagrant from exiting nicely, even though we run foreman as `foreman .. &`. To ensure a smooth exit from foreman, and to be able to see its output in future, you should send the output of processes in your Procfile to a file. eg:
+
+    web: gunicorn --reload --log-level debug myproject.wsgi > /vagrant/gunicorn.log 2>&1
+
+Then you can just `tail -f /vagrant/gunicorn.log` to see its output. For this reason you might want to use a different Procfile for use in Vagrant than you do with your live server (use the setting in `config/vagrant.yml` to specify the filename).
+
+Also note: We use the `--reload` option with gunicorn so that it reloads when code changes. Otherwise you'll never see changes when you make them!
+
+**However:** This still [seems to get stuck](http://stackoverflow.com/questions/38208840/restart-gunicorn-run-with-foreman-on-error) sometimes, with gunicorn's log showing "Worker failed to boot". To avoid using foreman at all change the `procfile` setting in your `config/vagrant.yml` file to something that doesn't exist (eg, `'false'`). Then you can run the Django dev server manually:
+
+    $ vagrant ssh
+    vagrant$ /vagrant/manage.py runserver 0.0.0.0:5000
+
+
 ## Python versions
 
 By default the virtualenv will use python 2.7.
@@ -87,17 +104,6 @@ So I had to do this (replace `DB_NAME` with your database name):
 	vagrant$ sudo -u postgres psql DB_NAME
 	=# CREATE EXTENSION postgis;
 	=# \q
-
-
-## Foreman
-
-By default foreman sends output to stdout and stderr. This prevents Vagrant from exiting nicely, even though we run foreman as `foreman .. &`. To ensure a smooth exit from foreman, and to be able to see its output in future, you should send the output of processes in your Procfile to a file. eg:
-
-    web: gunicorn --reload --log-level debug myproject.wsgi > /vagrant/gunicorn.log 2>&1
-
-Then you can just `tail -f /vagrant/gunicorn.log` to see its output. For this reason you might want to use a different Procfile for use in Vagrant than you do with your live server (use the setting in `config/vagrant.yml` to specify the filename).
-
-**Also note:** We use the `--reload` option with gunicorn so that it reloads when code changes. Otherwise you'll never see changes when you make them!
 
 
 ## Database
@@ -141,7 +147,7 @@ So, to set environment variables for your virtualenv you might add something lik
 
 ## Potential problems
 
-If you try to access your Django site in a browser but get a "Peer authentication failed for user" error, then ensure you've set the `HOST` value in your Django settings file to `localhost`. An empty string will not work.
+If you try to access your Django site in a browser but get a "Peer authentication failed for user" error, then ensure you've set the `HOST` value in your Django settings file to `localhost` or (*for development only*) `"*"`. An empty string will not work.
 
 
 ## Useful / Inspired by:
