@@ -144,6 +144,8 @@ So, to set environment variables for your virtualenv you might add something lik
 
     export MY_ENVIRONMENT_VARIABLE=hello-there
 
+These files are only created on initial set-up, so to change their contents subsequently, do it manually. They can be found in the vagrant box at `/home/vagrant/.virtualenvs/your-venv-name/bin/`.
+
 
 ## Potential problems
 
