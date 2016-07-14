@@ -18,6 +18,8 @@ If a `Procfile` is found, foreman will be started.
 
 The project directory (containing the `Vagrantfile`) will be availble in the VM at `/vagrant/`.
 
+If there's a `manage.py` file in the root of the project, it will run Django's `migrate` and `collectstatic` commands.
+
 
 ## Running it
 
@@ -37,8 +39,8 @@ The project directory (containing the `Vagrantfile`) will be availble in the VM 
             vagrant/        # a copy or symlink
             vagrant.yml
         myproject/
-            manage.py
             ...
+		manage.py
         Procfile
         requirements.txt
         runtime.txt         # optional, see below
