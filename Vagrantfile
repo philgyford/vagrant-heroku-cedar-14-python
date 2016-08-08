@@ -41,7 +41,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # PostgreSQL Server port forwarding
   config.vm.network "forwarded_port", host: 15432, guest: 5432
 
-  # You can provision with just one of these scripts by user its name, eg:
+  # You can provision with just one of these scripts by using its name, eg:
   #   $ vagrant provision --provision-with postgresql
 
   config.vm.provision 'build',
@@ -50,6 +50,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
             args: [
               settings['use_geodjango'],
             ]
+
+  config.vm.provision 'build',
+            type: 'shell',
+            path: 'config/vagrant/bash_setup.sh'
 
   config.vm.provision 'git',
             type: 'shell',
