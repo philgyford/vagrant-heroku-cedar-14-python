@@ -51,7 +51,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
               settings['use_geodjango'],
             ]
 
-  config.vm.provision 'build',
+  config.vm.provision 'bash',
             type: 'shell',
             path: 'config/vagrant/bash_setup.sh'
 
