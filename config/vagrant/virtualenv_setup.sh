@@ -49,8 +49,8 @@ else
     # If runtime.txt specifies Python 3, use that for the virtualenv:
     if [[ -f /vagrant/runtime.txt ]]; then
         python_runtime=$(head -n 1 /vagrant/runtime.txt)
-        if [[ $python_runtime =~ ^python-3\.5 ]]; then
-            PYTHON_VERSION='python3.5'
+        if [[ $python_runtime =~ ^python-3\.6 ]]; then
+            PYTHON_VERSION='python3.6'
         fi
     fi
 

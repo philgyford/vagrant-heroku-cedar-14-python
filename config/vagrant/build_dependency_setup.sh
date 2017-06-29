@@ -7,11 +7,11 @@ echo "=== Begin Vagrant Provisioning using 'config/vagrant/build_dependency_setu
 USE_GEODJANGO=$1
 
 # Install build dependencies for a sane build environment
-apt-get -y update
-apt-get -y install autoconf bison build-essential libssl-dev libyaml-dev libreadline6-dev zlib1g-dev libncurses5-dev libffi-dev libgdbm3 libgdbm-dev
+apt-get -y -qq update
+apt-get -y -qq install autoconf bison build-essential libssl-dev libyaml-dev libreadline6-dev zlib1g-dev libncurses5-dev libffi-dev libgdbm3 libgdbm-dev
 
 # Other things that we may need installed before anything else.
-apt-get install -y libmemcached-dev
+apt-get -y -qq install libmemcached-dev
 
 if [ $USE_GEODJANGO = 'true' ]
 then
@@ -19,7 +19,7 @@ then
   echo ""
   echo "Installing Geospatial libraries"
   echo ""
-  apt-get -y install binutils libproj-dev gdal-bin
+  apt-get -y -qq install binutils libproj-dev gdal-bin
 fi
 
 echo "=== End Vagrant Provisioning using 'config/vagrant/build_dependency_setup.sh'"

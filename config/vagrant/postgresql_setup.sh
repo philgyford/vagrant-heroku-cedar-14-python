@@ -15,11 +15,11 @@ APP_DB_PASS=$3
 USE_GEODJANGO=$4
 
 # Edit the following to change the version of PostgreSQL that is installed
-PG_VERSION=9.5
+PG_VERSION=9.6
 
 # Edit the following to change the version of PostGIS that is installed if
 # USE_GEODJANGO is true.
-POSTGIS_VERSION=2.2
+POSTGIS_VERSION=2.3
 
 ###########################################################
 # Changes below this line are probably not necessary
@@ -72,10 +72,9 @@ fi
 
 # Update package list and upgrade all packages
 apt-get update
-apt-get -y upgrade
+apt-get -y -qq upgrade
 
-apt-get -y install "postgresql-$PG_VERSION" "postgresql-contrib-$PG_VERSION"
-apt-get -y install libpq-dev # For building ruby 'pg' gem
+apt-get -y -qq install "postgresql-$PG_VERSION" "postgresql-contrib-$PG_VERSION" libpq-dev
 
 if [ $USE_GEODJANGO = 'true' ]
 then
@@ -83,7 +82,7 @@ then
   echo "Installing PostGIS"
   echo ""
   # NOTE: GEOS, PROJ.4 and GDAL should be installed before this.
-  apt-get -y install postgresql-$PG_VERSION-postgis-$POSTGIS_VERSION postgresql-server-dev-$PG_VERSION python-psycopg2
+  apt-get -y -qq install postgresql-$PG_VERSION-postgis-$POSTGIS_VERSION postgresql-$PG_VERSION-postgis-$POSTGIS_VERSION-scripts postgresql-server-dev-$PG_VERSION python-psycopg2
 fi
 
 PG_CONF="/etc/postgresql/$PG_VERSION/main/postgresql.conf"
@@ -121,10 +120,15 @@ CREATE DATABASE "$APP_DB_NAME" WITH OWNER=$APP_DB_USER
                                   TEMPLATE=template0;
 EOF
 
+# Django will try to create the postgis extension again, even though it's
+# not necessary. To do so, it needs to be a superuser, so we have to make it
+# one. It's not possible to do this temporarily because it needs it to
+# create test DBs too, so unfortunately it has to stay.
 if [ $USE_GEODJANGO = 'true' ]
 then
   cat << EOF | su - postgres -c psql $APP_DB_NAME
   CREATE EXTENSION postgis;
+  ALTER USER $APP_DB_USER SUPERUSER;
 EOF
 fi
 
