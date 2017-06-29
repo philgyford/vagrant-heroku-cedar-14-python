@@ -3,8 +3,8 @@
 A Vagrant box for python/Django development, mimicking a Heroku cedar-14 dyno.
 
 * Ubuntu 14.04 (ubuntu/trusty64)
-* PostgreSQL 9.5
-* Python 2.7 or 3.5
+* PostgreSQL 9.6
+* Python 2.7 or 3.6
 * pip, virtualenv, virtualenvwrapper
 * Requirements for the python image processing module Pillow
 * foreman (optional, and sometimes problematic; see below)
@@ -163,4 +163,10 @@ If you try to access your Django site in a browser but get a "Peer authenticatio
 * https://github.com/jackdb/pg-app-dev-vm/
 * https://github.com/maigfrga/django-vagrant-chef/
 * https://devcenter.heroku.com/articles/cedar-ubuntu-packages
+
+
+## Credits
+
+* [Phil Gyford](https://github.com/philgyford) - Initial creation
+* [Steven Day](https://github.com/stevenday) - v1.1 updates and fixes
 
