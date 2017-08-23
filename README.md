@@ -1,5 +1,7 @@
 # Vagrant Heroku cedar-14 box for Python and Django
 
+**NOTE: It's now probably best to use [this newer cedar-16 version](https://github.com/philgyford/vagrant-heroku-cedar-16-python).**
+
 A Vagrant box for python/Django development, mimicking a Heroku cedar-14 dyno.
 
 * Ubuntu 14.04 (ubuntu/trusty64)
